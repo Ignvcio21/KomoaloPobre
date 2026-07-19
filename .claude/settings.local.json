@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(artifact-design)",
+      "Skill(artifact-design:*)",
+      "mcp__visualize__show_widget",
+      "PowerShell(Copy-Item \"C:\\\\Users\\\\vidal\\\\Desktop\\\\carta_komo_a_lo_pobre.html\" \"C:\\\\Users\\\\vidal\\\\Desktop\\\\KomoaloPobre\\\\carta_komo_a_lo_pobre.html\" -Force)",
+      "PowerShell(Copy-Item \"C:\\\\Users\\\\vidal\\\\Desktop\\\\iconos_komo.webp\" \"C:\\\\Users\\\\vidal\\\\Desktop\\\\KomoaloPobre\\\\iconos_komo.webp\" -Force)",
+      "Bash(powershell -Command \"\\(Get-Content index.html\\) -replace 'class=\\\\\"deco-strip\\\\\" style=\\\\\"background-image:url\\\\\\(''\\(.+?\\)''\\\\\\)\\\\\"', 'class=\\\\\"deco-strip\\\\\" data-img=\\\\\"\\\\$1\\\\\"' | Set-Content index.html -Encoding utf8\")",
+      "mcp__visualize__read_me",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}

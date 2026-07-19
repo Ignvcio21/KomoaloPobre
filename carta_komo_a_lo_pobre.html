@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Komo a lo Pobre — Carta Digital</title>
+<style>
+/* ── TOKENS ── */
+:root {
+  --c-bg: #F5F0E8; --c-surface: #FDFAF5; --c-brand: #2A5C3E; --c-accent: #7DB83A;
+  --c-price: #5B9A25; --c-text: #1C1C18; --c-text2: #6A6255; --c-text3: #A09580;
+  --c-border: #DDD6C8; --c-tag-bg: #E8F4D9; --c-tag-text: #3A7020;
+  --c-hdr: #1D3D2A; --c-hdr-text: #F5F0E8; --c-tab: rgba(245,240,232,.55);
+  --c-banner: #253F30; --c-sub: #2A5C3E;
+  --img: url('iconos_komo.webp');
+}
+@media(prefers-color-scheme:dark){:root{
+  --c-bg:#121A14;--c-surface:#1A2B1E;--c-brand:#8CCF44;--c-accent:#8CCF44;
+  --c-price:#8CCF44;--c-text:#EDE8E0;--c-text2:#9A9080;--c-text3:#6A6058;
+  --c-border:#263020;--c-tag-bg:#1A2F14;--c-tag-text:#8CCF44;
+  --c-hdr:#0D1A10;--c-hdr-text:#EDE8E0;--c-tab:rgba(237,232,224,.5);
+  --c-banner:#152018;--c-sub:#8CCF44;
+}}
+:root[data-theme=light]{--c-bg:#F5F0E8;--c-surface:#FDFAF5;--c-brand:#2A5C3E;--c-accent:#7DB83A;--c-price:#5B9A25;--c-text:#1C1C18;--c-text2:#6A6255;--c-text3:#A09580;--c-border:#DDD6C8;--c-tag-bg:#E8F4D9;--c-tag-text:#3A7020;--c-hdr:#1D3D2A;--c-hdr-text:#F5F0E8;--c-tab:rgba(245,240,232,.55);--c-banner:#253F30;--c-sub:#2A5C3E;}
+:root[data-theme=dark]{--c-bg:#121A14;--c-surface:#1A2B1E;--c-brand:#8CCF44;--c-accent:#8CCF44;--c-price:#8CCF44;--c-text:#EDE8E0;--c-text2:#9A9080;--c-text3:#6A6058;--c-border:#263020;--c-tag-bg:#1A2F14;--c-tag-text:#8CCF44;--c-hdr:#0D1A10;--c-hdr-text:#EDE8E0;--c-tab:rgba(237,232,224,.5);--c-banner:#152018;--c-sub:#8CCF44;}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--c-bg);color:var(--c-text);font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.5}
+
+/* ── HEADER ── */
+.site-header{background:var(--c-hdr);color:var(--c-hdr-text);padding:24px 20px 0;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.brand-block{display:flex;flex-direction:column;align-items:center;gap:2px;padding-bottom:18px}
+.brand-eyebrow{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--c-accent);font-weight:600}
+.brand-name{font-family:Georgia,'Times New Roman',serif;font-size:clamp(1.6rem,5vw,2.2rem);font-weight:bold;letter-spacing:.01em;color:var(--c-hdr-text);line-height:1;text-align:center}
+.brand-name em{font-style:italic;color:var(--c-accent);font-weight:normal}
+.brand-tagline{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,232,.38);margin-top:4px}
+
+/* ── TABS ── */
+.tab-bar{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:0 -20px;padding:0 20px;border-top:1px solid rgba(255,255,255,.07)}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:11px 14px;border:none;background:transparent;color:var(--c-tab);cursor:pointer;font-size:.76rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;font-family:inherit}
+.tab-btn:hover{color:var(--c-hdr-text)}
+.tab-btn.active{color:var(--c-accent);border-bottom-color:var(--c-accent)}
+
+/* ── CONTENT ── */
+.main-content{max-width:680px;margin:0 auto;padding:0 16px 60px}
+.section{display:none}
+.section.active{display:block;animation:fadein .18s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION HEADER ── */
+.section-head{padding:26px 0 10px}
+.section-title{font-size:clamp(1.7rem,6vw,2.2rem);font-weight:900;letter-spacing:-.02em;text-transform:uppercase;color:var(--c-brand);line-height:1;text-wrap:balance}
+.section-badge{display:inline-block;margin-top:10px;padding:4px 12px;background:var(--c-tag-bg);color:var(--c-tag-text);font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:3px}
+.section-divider{border:none;border-top:2px solid var(--c-sub);margin:14px 0 0}
+.banner{background:var(--c-banner);color:var(--c-accent);padding:10px 14px;font-size:.82rem;font-weight:600;letter-spacing:.02em;border-radius:4px;margin-bottom:4px}
+.banner strong{color:var(--c-hdr-text)}
+.sub-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--c-text3);padding:18px 0 6px;border-bottom:1px solid var(--c-border)}
+
+/* ── MENU ITEMS ── */
+.menu-item{display:flex;align-items:baseline;gap:12px;padding:13px 0;border-bottom:1px solid var(--c-border)}
+.menu-item:last-child{border-bottom:none}
+.item-body{flex:1;min-width:0}
+.item-name{font-weight:700;font-size:.95rem;letter-spacing:.01em;color:var(--c-text);text-transform:uppercase;line-height:1.2}
+.item-desc{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:.82rem;color:var(--c-text2);margin-top:3px;line-height:1.4}
+.item-price{font-size:1.05rem;font-weight:700;color:var(--c-price);white-space:nowrap;font-variant-numeric:tabular-nums;flex-shrink:0;letter-spacing:.01em}
+
+/* ── PIZZA ── */
+.pizza-sizes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.size-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:3px}
+.size-label{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c-text3)}
+.size-price{font-size:1.5rem;font-weight:900;color:var(--c-price);font-variant-numeric:tabular-nums}
+.size-note{font-size:.72rem;color:var(--c-text3)}
+.builder-divider{text-align:center;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--c-text3);padding:16px 0 10px;position:relative}
+.builder-divider::before,.builder-divider::after{content:'';position:absolute;top:50%;width:35%;height:1px;background:var(--c-border)}
+.builder-divider::before{left:0}.builder-divider::after{right:0}
+.ingredient-lists{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ingr-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:6px;padding:14px}
+.ingr-title{font-weight:800;font-size:.88rem;color:var(--c-brand);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.ingr-cost{font-size:.72rem;color:var(--c-text3);display:block;margin-bottom:10px}
+.ingr-card ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.ingr-card li{font-size:.82rem;color:var(--c-text2);padding-left:12px;position:relative}
+.ingr-card li::before{content:'·';position:absolute;left:0;color:var(--c-accent)}
+
+/* ── DECO ROWS ── */
+.deco-row{display:flex;align-items:center;overflow:hidden;padding:6px 0;opacity:.35;gap:0}
+.deco-item{display:inline-flex;flex-shrink:0;overflow:hidden}
+/* sprite icon base */
+.si{background-image:url('iconos_komo.webp');background-repeat:no-repeat;display:inline-block;flex-shrink:0}
+/* ── SPRITE medido con exactitud de píxel (1536x1024) ──
+   Bounding boxes reales:
+   R1 subs:  x=105-1482, y=104-248
+   R2 items: x=101-1490, y=360-681
+   R3 items: x=118-1448, y=682-850
+   DECO: s=0.30 → bg-size:461x307
+   ILUSTRACIONES: s=1.2 (sub), s=0.70 (fila 3) */
+
+/* DECO STRIP — s=0.45, bg-size:691px 461px
+   Bboxes medidos con Python (1536x1024):
+   R1 subs: y=104-248  R2 items: y=359-507  R3: y=682-851 */
+.si-sm{background-size:691px 461px}
+
+/* Fila 1 — y_orig≈105 → bg_y=47px; cada sub ≈130px×60px al 0.45 */
+.si-sub1   {background-position:-47px -47px}
+.si-sub2   {background-position:-138px -47px}
+.si-sub3   {background-position:-276px -52px}
+.si-sub4   {background-position:-414px -48px}
+.si-sub5   {background-position:-557px -49px}
+
+/* Fila 2 — y_orig≈361 → bg_y=162px */
+.si-round    {background-position:-45px  -162px}
+.si-sub6     {background-position:-138px -163px}
+.si-sub7     {background-position:-276px -163px}
+.si-hotdog-sm{background-position:-414px -163px}
+.si-burg-side{background-position:-581px -162px}
+
+/* Fila 3 — y_orig=682 → bg_y=307px */
+.si-fries-sm  {background-position:-53px  -307px}
+.si-burg-sm   {background-position:-173px -307px}
+.si-hotdog2-sm{background-position:-367px -307px}
+.si-pizza-sm  {background-position:-518px -307px}
+
+/* SECTION ILLUSTRATIONS */
+/* Sandwich sub1: s=1.2 → bg 1843x1229, orig(105,105)→(306,248) */
+.si-sub-lg{background-size:1843px 1229px;background-position:-126px -126px;width:242px;height:173px}
+/* Fila 3: s=0.70 → bg 1075x717, orig y=682→bg_y=477 */
+.si-fries-lg {background-size:1075px 717px;background-position:-83px  -477px;width:186px;height:118px}
+.si-burg-lg  {background-size:1075px 717px;background-position:-269px -477px;width:236px;height:97px}
+.si-hotdog-lg{background-size:1075px 717px;background-position:-572px -477px;width:235px;height:104px}
+.si-pizza-lg {background-size:1075px 717px;background-position:-806px -477px;width:208px;height:117px}
+
+/* illustration areas */
+.illo-center{display:flex;justify-content:center;padding:20px 0 12px}
+.illo-burger-row{display:flex;align-items:flex-end;justify-content:center;gap:16px;padding:16px 0 10px;flex-wrap:wrap}
+.illo-notes{display:flex;flex-direction:column;gap:8px;justify-content:center}
+.in1{font-weight:800;font-size:.9rem;color:var(--c-brand);text-transform:uppercase;letter-spacing:.04em;line-height:1.35}
+.in2{font-weight:700;font-size:.85rem;color:var(--c-price);letter-spacing:.03em;line-height:1.35}
+.illo-pair{display:flex;justify-content:center;align-items:flex-end;gap:28px;padding:16px 0 10px}
+
+/* ── FOOTER ── */
+.site-footer{background:var(--c-hdr);color:rgba(245,240,232,.5);text-align:center;padding:24px 16px;font-size:.8rem;line-height:2}
+.site-footer a{color:var(--c-accent);text-decoration:none}
+.site-footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand-block">
+    <span class="brand-eyebrow">Carta Digital</span>
+    <h1 class="brand-name"><strong>Komo</strong> <em>a lo</em> <strong>Pobre</strong></h1>
+    <span class="brand-tagline">Para llevar y servir — Putú</span>
+  </div>
+  <nav class="tab-bar">
+    <button class="tab-btn active" onclick="show('sandwiches',this)">Sandwiches</button>
+    <button class="tab-btn" onclick="show('hamburguesas',this)">Hamburguesas</button>
+    <button class="tab-btn" onclick="show('completos',this)">Completos</button>
+    <button class="tab-btn" onclick="show('papas',this)">Papas Fritas</button>
+    <button class="tab-btn" onclick="show('pizza',this)">Pizza</button>
+  </nav>
+</header>
+
+<main class="main-content">
+
+<!-- ═══ SANDWICHES ═══ -->
+<section class="section active" id="sandwiches">
+  <div class="deco-row" id="deco-sw-top"></div>
+  <div class="section-head">
+    <h2 class="section-title">Sandwiches</h2>
+    <span class="section-badge">Elige: Vacuno · Cerdo · Pollo · Veg = Champiñones</span>
+    <hr class="section-divider">
+  </div>
+  <div class="item-list">
+    <div class="menu-item"><div class="item-body"><div class="item-name">Churrasco Solo</div></div><div class="item-price">$5.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Barros Luco</div><div class="item-desc">carne, queso derretido</div></div><div class="item-price">$5.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Italiano</div><div class="item-desc">carne, tomate, palta, mayo</div></div><div class="item-price">$6.290</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Chacarero</div><div class="item-desc">carne, tomate, poroto verde, mayo, ají verde</div></div><div class="item-price">$6.290</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Brasilero</div><div class="item-desc">carne, queso derretido, palta</div></div><div class="item-price">$6.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Barros Luco Tocino</div><div class="item-desc">carne, queso derretido, tocino</div></div><div class="item-price">$6.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Chacarero 2.0</div><div class="item-desc">carne, tomate, poroto verde, palta, mayo, choclo, ají verde</div></div><div class="item-price">$7.290</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Barros Luco Italiano</div><div class="item-desc">carne, queso, tomate, palta, mayo</div></div><div class="item-price">$7.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Barros Luco Camarón</div><div class="item-desc">carne, queso derretido, camarones</div></div><div class="item-price">$7.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Barros Luco Especial</div><div class="item-desc">carne, queso derretido, cebolla saltada, champiñones</div></div><div class="item-price">$7.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Festival Maulino</div><div class="item-desc">carne, tomate, palta, lechuga, mayo, choclo</div></div><div class="item-price">$7.690</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">El Putugano</div><div class="item-desc">carne, cebolla, queso, palta, lechuga, mayo, choclo</div></div><div class="item-price">$7.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Gran Jefe</div><div class="item-desc">carne, tomate, palta, lechuga, mayo, choclo, queso</div></div><div class="item-price">$7.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">A lo Pobre</div><div class="item-desc">carne, cebolla saltada, huevo frito, papas fritas</div></div><div class="item-price">$7.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Luco Especial 2.0</div><div class="item-desc">carne, cebolla saltada, champiñones, queso, tocino, huevo</div></div><div class="item-price">$8.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Festival Maulino Recargado</div><div class="item-desc">carne, cebolla saltada, champiñones, queso, tomate, palta, lechuga, mayo, choclo</div></div><div class="item-price">$8.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Gran Jefe Original</div><div class="item-desc">carne, tocino, queso, tomate, palta, lechuga, mayo, choclo, huevo</div></div><div class="item-price">$8.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Gran Luco Camarón</div><div class="item-desc">carne, cebolla saltada, camarones, queso, palta, lechuga, mayo, choclo</div></div><div class="item-price">$8.990</div></div>
+  </div>
+  <div class="deco-row" id="deco-sw-bot"></div>
+  <div class="illo-center"><div class="si si-sub-lg"></div></div>
+</section>
+
+<!-- ═══ HAMBURGUESAS ═══ -->
+<section class="section" id="hamburguesas">
+  <div class="deco-row" id="deco-bg-top"></div>
+  <div class="section-head">
+    <h2 class="section-title">Hamburguesas</h2>
+    <span class="section-badge">Vacuno o Vegetariana · Papitas incluidas</span>
+    <hr class="section-divider">
+  </div>
+  <div class="banner">Duplica tu hamburguesa por solo <strong>$1.000</strong> adicional</div>
+  <div class="item-list">
+    <div class="menu-item"><div class="item-body"><div class="item-name">Hamburguesa Queso</div><div class="item-desc">pan, hamburguesa, queso cheddar</div></div><div class="item-price">$5.690</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Hamburguesa Italiana</div><div class="item-desc">pan, hamburguesa, tomate, palta, mayo</div></div><div class="item-price">$5.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Hamburguesa a lo Pobre</div><div class="item-desc">pan, hamburguesa, cebolla, huevo</div></div><div class="item-price">$5.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Hamburguesa Queso Tocino</div><div class="item-desc">pan, hamburguesa, queso, tocino</div></div><div class="item-price">$6.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Hamburguesa Champiñones</div><div class="item-desc">pan, hamburguesa, cebolla, champiñones, queso</div></div><div class="item-price">$6.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Hamburguesa Maulina</div><div class="item-desc">pan, hamburguesa, tomate, palta, mayo, choclo</div></div><div class="item-price">$6.490</div></div>
+  </div>
+  <div class="deco-row" id="deco-bg-bot"></div>
+  <div class="illo-burger-row">
+    <div class="si si-burg-lg"></div>
+    <div class="si si-fries-lg"></div>
+    <div class="illo-notes">
+      <p class="in1">Papitas fritas incluidas<br>con tu hamburguesa</p>
+      <p class="in2">★ Duplica tu hamburguesa<br>por $1.000</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMPLETOS ═══ -->
+<section class="section" id="completos">
+  <div class="deco-row" id="deco-hd-top"></div>
+  <div class="section-head">
+    <h2 class="section-title">Completos</h2>
+    <hr class="section-divider">
+  </div>
+  <div class="item-list">
+    <div class="sub-label">Clásicos</div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Completo Solo</div><div class="item-desc">pan, salchicha</div></div><div class="item-price">$1.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Completo Italiano</div><div class="item-desc">salchicha, tomate, palta, mayo</div></div><div class="item-price">$1.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Completo con Todo</div><div class="item-desc">salchicha, tomate, palta, chucrut, mayo</div></div><div class="item-price">$1.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Incompleto</div><div class="item-desc">pan, tomate, palta, mayo</div></div><div class="item-price">$1.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Completo Chacarero</div><div class="item-desc">salchicha, tomate, poroto verde, mayo, ají verde</div></div><div class="item-price">$2.290</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Completo Luco</div><div class="item-desc">salchicha, queso</div></div><div class="item-price">$2.290</div></div>
+    <div class="sub-label">As — con carne</div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">As Solo</div><div class="item-desc">pan, carne</div></div><div class="item-price">$3.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">As Italiano</div><div class="item-desc">carne, tomate, palta, mayo</div></div><div class="item-price">$3.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">As Chacarero</div><div class="item-desc">carne, tomate, poroto verde, mayo, ají verde</div></div><div class="item-price">$3.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">As Luco</div><div class="item-desc">carne, queso derretido</div></div><div class="item-price">$3.990</div></div>
+  </div>
+  <div class="deco-row" id="deco-hd-bot"></div>
+  <div class="illo-center"><div class="si si-hotdog-lg"></div></div>
+</section>
+
+<!-- ═══ PAPAS FRITAS ═══ -->
+<section class="section" id="papas">
+  <div class="deco-row" id="deco-fr-top"></div>
+  <div class="section-head">
+    <h2 class="section-title">Papas Fritas</h2>
+    <hr class="section-divider">
+  </div>
+  <div class="item-list">
+    <div class="sub-label">Papas Fritas</div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Papas Fritas Chicas</div></div><div class="item-price">$2.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Papas Fritas Medianas</div></div><div class="item-price">$4.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Papas Fritas Grandes</div></div><div class="item-price">$5.990</div></div>
+    <div class="sub-label">Salchipapas</div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Salchipapa Chica</div></div><div class="item-price">$3.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Salchipapa Mediana</div></div><div class="item-price">$5.790</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Salchipapa Grande</div></div><div class="item-price">$7.790</div></div>
+    <div class="sub-label">Papas Especiales</div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Papita Tocino Queso Cheddar</div></div><div class="item-price">$8.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Papita Mechada Queso Cheddar</div></div><div class="item-price">$10.490</div></div>
+    <div class="sub-label">Chorrillana</div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Chorrillana Individual</div></div><div class="item-price">$7.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Chorrillana Grande</div></div><div class="item-price">$11.490</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Chorrillana Mixta Individual</div><div class="item-desc">papas, vacuno, pollo, choricillo, cebolla saltada, huevos</div></div><div class="item-price">$8.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Chorrillana Mixta Grande</div></div><div class="item-price">$13.990</div></div>
+    <div class="menu-item"><div class="item-body"><div class="item-name">Chorrillana Vegetariana</div><div class="item-desc">papas, champiñón, cebollín, choclo, morrón, huevo frito</div></div><div class="item-price">$11.490</div></div>
+  </div>
+  <div class="deco-row" id="deco-fr-bot"></div>
+  <div class="illo-pair">
+    <div class="si si-fries-lg"></div>
+    <div class="si si-pizza-lg"></div>
+  </div>
+</section>
+
+<!-- ═══ PIZZA ═══ -->
+<section class="section" id="pizza">
+  <div class="deco-row" id="deco-pz-top"></div>
+  <div class="section-head">
+    <h2 class="section-title">Pizza</h2>
+    <span class="section-badge">Salsa + Queso incluidos · Personaliza con ingredientes</span>
+    <hr class="section-divider">
+  </div>
+  <div class="pizza-sizes">
+    <div class="size-card">
+      <span class="size-label">Individual</span>
+      <span class="size-price">$4.490</span>
+      <span class="size-note">tamaño personal</span>
+    </div>
+    <div class="size-card">
+      <span class="size-label">Mediana</span>
+      <span class="size-price">$9.790</span>
+      <span class="size-note">para compartir</span>
+    </div>
+  </div>
+  <div class="builder-divider">Arma tu pizza</div>
+  <div class="ingredient-lists">
+    <div class="ingr-card">
+      <div class="ingr-title">Lista A</div>
+      <span class="ingr-cost">+1 ingrediente · $2.000 extra</span>
+      <ul>
+        <li>Carne de vacuno</li><li>Carne de cerdo</li><li>Camarones</li>
+        <li>Pollo</li><li>Tocino</li><li>Champiñones</li>
+      </ul>
+    </div>
+    <div class="ingr-card">
+      <div class="ingr-title">Lista B</div>
+      <span class="ingr-cost">+2 ingredientes · $1.000 extra</span>
+      <ul>
+        <li>Aceituna</li><li>Ají verde</li><li>Cebollín</li>
+        <li>Cebolla saltada</li><li>Choclo</li><li>Choricillo</li>
+        <li>Jamón</li><li>Morrón</li><li>Poroto verde</li>
+        <li>Salame</li><li>Tomate</li><li>Extra queso</li>
+      </ul>
+    </div>
+  </div>
+  <div class="deco-row" id="deco-pz-bot"></div>
+  <div class="illo-center"><div class="si si-pizza-lg"></div></div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div>Riquelme esquina Portales S/N, Putú</div>
+  <div><a href="tel:+56942920688">+569 42920688</a></div>
+  <div>
+    <a href="https://instagram.com/komo_alo_pobre">@komo_alo_pobre</a>
+    &nbsp;·&nbsp;
+    <a href="#">Komo a lo Pobre Putú</a>
+  </div>
+</footer>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── DECO ROWS with sprites from the real illustration image ── */
+const ROTS = [-6, 4, -9, 5, -3, 8, -5, 3, -8, 6, -4, 7, -7, 4, -5, 9, -3, 6];
+
+// Each icon: [class-suffix, display-width, display-height]
+const ICONS = {
+  sub1:     ['sub1',       90, 65],
+  sub2:     ['sub2',       90, 60],
+  sub3:     ['sub3',       90, 55],
+  sub4:     ['sub4',       90, 61],
+  sub5:     ['sub5',       90, 60],
+  round:    ['round',      60, 63],
+  sub6:     ['sub6',       90, 63],
+  sub7:     ['sub7',       90, 63],
+  hotdog:   ['hotdog-sm',  90, 63],
+  burgside: ['burg-side',  60, 63],
+  fries:    ['fries-sm',   90, 70],
+  burg:     ['burg-sm',    90, 63],
+  hotdog2:  ['hotdog2-sm', 90, 63],
+  pizza:    ['pizza-sm',   90, 70],
+};
+
+const SEQS = {
+  sw:  ['sub1','sub2','sub3','sub4','sub5','sub6','sub7','sub1','sub2','sub3','sub4','sub5'],
+  bg:  ['burg','burgside','fries','sub1','burg','burgside','fries','sub2','burg','burgside'],
+  hd:  ['hotdog','hotdog2','sub1','round','hotdog','hotdog2','sub3','round','hotdog','hotdog2'],
+  fr:  ['fries','burg','hotdog','sub1','fries','pizza','hotdog2','sub2','fries','burg'],
+  pz:  ['pizza','sub1','burg','fries','pizza','hotdog','sub2','pizza','burg','fries'],
+};
+
+function buildDecoRow(el, seq) {
+  if (!el) return;
+  const full = [...seq, ...seq, ...seq, ...seq];
+  let html = '';
+  full.forEach((key, i) => {
+    const [cls, w, h] = ICONS[key];
+    const r = ROTS[i % ROTS.length];
+    html += `<div class="deco-item" style="transform:rotate(${r}deg);margin:0 9px">` +
+            `<div class="si si-sm si-${cls}" style="width:${w}px;height:${h}px"></div></div>`;
+  });
+  el.innerHTML = html;
+}
+
+const SECTION_SEQS = { sw:'sw', bg:'bg', hd:'hd', fr:'fr', pz:'pz' };
+const ID_MAP = { sw:'sandwiches', bg:'hamburguesas', hd:'completos', fr:'papas', pz:'pizza' };
+
+Object.keys(SEQS).forEach(k => {
+  buildDecoRow(document.getElementById('deco-' + k + '-top'), SEQS[k]);
+  buildDecoRow(document.getElementById('deco-' + k + '-bot'), SEQS[k]);
+});
+</script>
+</body>
+</html>
