@@ -462,7 +462,7 @@ body {
 /* ── WHATSAPP BOTÓN FIJO ── */
 .wa-btn {
   position: fixed;
-  bottom: 80px;
+  bottom: 20px;
   right: 18px;
   z-index: 100;
   display: flex;
