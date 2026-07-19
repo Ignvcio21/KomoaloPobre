@@ -217,7 +217,7 @@ body {
   overflow: hidden;
   height: auto;
   margin: 0 -16px;
-  padding: 6px 0;
+  padding: 10px 0 6px;
 }
 
 .deco-strip img {
