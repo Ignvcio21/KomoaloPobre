@@ -70,7 +70,7 @@ body {
 .site-header {
   background: var(--c-hdr);
   color: var(--c-hdr-text);
-  padding: 20px 16px 0;
+  padding: 6px 16px 0;
   position: sticky;
   top: 0;
   z-index: 50;
@@ -82,12 +82,12 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0;
-  padding: 10px 0 8px;
+  padding: 6px 0 4px;
 }
 
 .brand-logo {
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
   object-fit: contain;
 }
 
@@ -139,7 +139,7 @@ body {
 
 .tab-btn {
   flex: 0 0 auto;
-  padding: 12px 14px;
+  padding: 8px 12px;
   border: none;
   background: transparent;
   color: var(--c-tab);
