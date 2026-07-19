@@ -214,11 +214,10 @@ body {
 .deco-strip {
   display: flex;
   align-items: center;
-  justify-content: center;
   overflow: hidden;
-  height: 80px;
+  height: auto;
   margin: 0 -16px;
-  padding: 10px 0;
+  padding: 14px 0;
 }
 
 .deco-strip img {
