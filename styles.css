@@ -83,6 +83,7 @@ body {
   align-items: center;
   gap: 0;
   padding: 0;
+  margin: -8px 0;
 }
 
 .brand-logo {
