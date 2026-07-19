@@ -86,9 +86,11 @@ body {
 }
 
 .brand-logo {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
 }
 
 .brand-eyebrow {
